@@ -1151,7 +1151,8 @@ bool CCodeBlocksProject::GenerateMakefile
        //
        // platform check is disabled to allow cross-platform builds
        //if ((pl->OS()==CPlatform::OS_Windows) && (target->Type()==CBuildTarget::ttExecutable))
-       if (!linker->OptionWinGUI().IsEmpty())
+       //if (!linker->OptionWinGUI().IsEmpty()) // this breaks console builds [aafemt]
+       if ((target->Type()==CBuildTarget::ttExecutable) && !linker->OptionWinGUI().IsEmpty()) // must be on only for executables [aafemt]
        {
         CVariable& v = cmd_args.VarNamed(TPL_LNK_OPTIONS);
         v.SetString(v.GetString()+" "+linker->OptionWinGUI());
